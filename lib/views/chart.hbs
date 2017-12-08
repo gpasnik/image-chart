@@ -1,0 +1,24 @@
+<canvas id="myChart" width="400" height="400"></canvas>
+<script src="/bower_components/chart.js/dist/Chart.js"></script>
+<script>
+  var ctx = document.getElementById("myChart");
+  var chartData = {{{json chartData}}};
+  var config = {
+    type: 'line',
+    data: chartData,
+    options: {
+      responsive: false,
+      title:{ display: false },
+      scales: {
+          xAxes: [{
+              display: true,
+          }],
+          yAxes: [{
+              display: true,
+          }]
+      }
+    }
+  };
+
+  var myChart = new Chart(ctx, config);
+</script>
