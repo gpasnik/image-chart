@@ -1,22 +1,17 @@
-<canvas id="myChart" width="400" height="400"></canvas>
+<canvas id="myChart" width="640" height="480"></canvas>
 <script src="/bower_components/chart.js/dist/Chart.js"></script>
 <script>
   var ctx = document.getElementById("myChart");
-  var chartData = {{{json chartData}}};
+  var chartConfig = {{{json chartConfig}}};
   var config = {
     type: 'line',
-    data: chartData,
+    data: chartConfig.data,
     options: {
       responsive: false,
+      stacked: false,
+      animation: { duration: 0},
       title:{ display: false },
-      scales: {
-          xAxes: [{
-              display: true,
-          }],
-          yAxes: [{
-              display: true,
-          }]
-      }
+      scales: chartConfig.options.scales
     }
   };
 
