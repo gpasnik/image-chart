@@ -7,10 +7,14 @@ if(!env) {
   env = 'local';
 }
 
+console.log(`Running environment: ${env}`);
+const scriptPath = path.join(__dirname, 'src/server.js');
+console.log(`Service path: ${scriptPath}`);
+
 const svc = new Service({
   name: 'Image-chart service',
   description: 'Generates chart as an image',
-  script: path.join(__dirname, 'src/server.js'),
+  script: scriptPath,
   env: {
     name: "PORT",
     value: config.port
