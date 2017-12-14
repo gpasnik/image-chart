@@ -27,17 +27,8 @@ if (env === 'prod' || 'dev') {
   svc.user.password = config.user.password;
 }
 
-svc.on('install', () =>{
-  console.log('Service installed');
-  svc.start();
-});
-
-svc.on('alreadyinstalled',function(){
-  console.log('Service is already installed.');
-});
-
 svc.on('start', () => {
   console.log('Service started');
 });
 
-svc.install();
+svc.start();
