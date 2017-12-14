@@ -1,7 +1,7 @@
 const Service = require('node-windows').Service;
 const path = require('path');
-const env = process.env["NODE_ENV_DUPA"];
 const config = require('./config/config');
+var env = process.env["NODE_ENV"];
 
 if(!env) {
   env = 'local';
