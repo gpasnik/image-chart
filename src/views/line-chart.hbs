@@ -6,6 +6,17 @@
 <script>
   var ctx = document.getElementById("myChart");
   var chartConfig = {{{json chartConfig}}};
+  var config = {
+    type: 'line',
+    data: chartConfig.data,
+    options: {
+      responsive: false,
+      stacked: false,
+      animation: { duration: 0},
+      title:{ display: false },
+      scales: chartConfig.options.scales
+    }
+  };
 
-  var myChart = new Chart(ctx, chartConfig);
+  var myChart = new Chart(ctx, config);
 </script>

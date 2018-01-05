@@ -1,7 +1,7 @@
 {
   "name": "image-chart",
   "description": "Generates image chart using express, chart.js, and phantomjs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "start": "node ./src/server.js"

@@ -1,6 +1,7 @@
 const phantom = require('phantom');
 const fs = require('fs');
 const phantomPool = require('phantom-pool');
+const qs = require('querystring');
 
 const pool = phantomPool({
   max: 10, 
@@ -24,26 +25,32 @@ var removeFile = (path) => {
   fs.unlinkSync(path);
 };
 
+var createChartImage = async (route, filename, data) => {
+  if (!data)
+    return;
+  let destinationPath = `output/${filename}.png`;
+  let queryString = qs.stringify({data: data});
+  console.time('chart-render');
+  console.log(data);
+  await pool.use(async (instance) => {
+    let page = await instance.createPage();
+    let status = await page.open(`http://localhost:3000/charts/${route}?${queryString}`);
+    console.log(`Status: ${status}`);
+    let render = await page.render(destinationPath);
+    console.log('Chart rendered');
+  });
+  console.timeEnd('chart-render');
+
+  let base64File = base64Encode(destinationPath);
+  removeFile(destinationPath);
+
+  return base64File;
+}
+
 var chartGenerator = {
-  createChart: async (filename, data) => {
-    if (!data)
-      return;
-    let destinationPath = `output/${filename}.png`;
-    console.time('chart-render');
-    await pool.use(async (instance) => {
-      let page = await instance.createPage();
-      let status = await page.open(`http://localhost:3000/charts/linear.base?data=${data}`);
-      console.log(`Status: ${status}`);
-      let render = await page.render(destinationPath);
-      console.log('Chart rendered');
-    });
-    console.timeEnd('chart-render');
-
-    let base64File = base64Encode(destinationPath);
-    removeFile(destinationPath);
-
-    return base64File;
-  }
+  createLineChart: async (filename, data) => await createChartImage('line.base', filename, data),
+  createBarChart: async (filename, data) => await createChartImage('bar', filename, JSON.stringify(data)),
+  createCustomChart: async (filename, data) => await createChartImage('custom', filename, JSON.stringify(data))
 };
 
 module.exports = chartGenerator;
